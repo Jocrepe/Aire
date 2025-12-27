@@ -1,0 +1,15 @@
+@import "tailwindcss";
+@plugin "daisyui" {
+  themes: light --default ;
+}
+
+
+/* @theme {
+  --font-DynaPuff: "", sans-serif;
+} */
+
+body {
+  font-family: 'Inter', sans-serif;
+
+
+}
