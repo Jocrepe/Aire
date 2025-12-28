@@ -1,7 +1,6 @@
 <script setup>
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
-import axios from 'axios';
 
 import UserLayout from '@/components/User/UserLayout.vue';
 import Loading from '@/components/User/Loading.vue';
@@ -15,15 +14,11 @@ const email = ref('')
 const password = ref('')
 const name = ref('')
 
-const errorMessage = ref('')
 
-const Register = async () => {
-    try {
-        await authStore.register(email.value, password.value, name.value)
+const Register = async (error) => {
+    await authStore.register(email.value, password.value, name.value)
+    if (!authStore.error) {
         router.push({name: 'login'})
-    } catch (error) {
-        errorMessage.value = error.response?.data?.message
-        console.log(errorMessage.value)
     }
 }
 </script>
@@ -35,6 +30,8 @@ const Register = async () => {
             <fieldset class="mx-auto my-20 fieldset bg-base-200 border-base-300 rounded-box w-md h-140 border p-10">
                 <legend class="fieldset-legend text-3xl">Create Account</legend>
 
+                <div v-if="authStore.error"><p class="text-error text-xl">{{ authStore.error }}</p></div>
+                
                 <label class="label ">email</label>
                 <input type="email" v-model="email" class="input w-full text-xl" placeholder="Email" />
 

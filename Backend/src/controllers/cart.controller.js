@@ -1,7 +1,8 @@
 import db from '../config/db.js'
+import AppError from '../utils/AppError.js'
 
 
-export const AddToCart = (req, res) => {
+export const AddToCart = (req, res, next) => {
   const userID = req.user.userID
   const { productID } = req.body
 
@@ -9,8 +10,7 @@ export const AddToCart = (req, res) => {
     [userID, productID],
     (err, row) => {
       if (err) {
-        console.error(err)
-        return res.status(500).json({ message: 'DB ERROR' })
+        return next(new AppError('Database Error', 500))
     }
       if (row) {
         db.run(`UPDATE Cart SET quantity = quantity + 1 WHERE userID = ? AND productID = ?`,
@@ -27,7 +27,7 @@ export const AddToCart = (req, res) => {
 }
 
 //fetch cart
-export const fetchCart = (req, res) => {
+export const fetchCart = (req, res, next) => {
   const userID = req.user.userID
 
   let sql = `
@@ -46,8 +46,7 @@ export const fetchCart = (req, res) => {
     [userID],
     (error, rows) => {
       if (error) {
-        console.error("SQL ERROR:", error)
-        return res.status(500).json({ message: 'DB Error: ', error: error })
+        return next(new AppError('Database Error', 500))
       }
 
       const data = rows.map(row => ({
@@ -62,12 +61,12 @@ export const fetchCart = (req, res) => {
     })
 }
 
-export const deleteItemFromCart = (req, res) => {
+export const deleteItemFromCart = (req, res, next) => {
   const userID = req.user.userID
   const { productID } = req.params
 
-  if (!productID || !userID) {
-    return res.status(400).json({ message: 'productID, userID is required!' })
+  if (!productID) {
+    return next(new AppError('productID is required', 400))
   }
 
   let sql = `DELETE FROM Cart WHERE userID = ? AND productID = ?`
@@ -75,8 +74,7 @@ export const deleteItemFromCart = (req, res) => {
     [userID, productID], 
     (error) => {
       if (error) {
-        console.error("SQL ERROR:", error)
-        return res.status(500).json({ message: 'DB Error: ', error: error })
+        return next(new AppError('Database Error', 500))
       }
 
       res.json({

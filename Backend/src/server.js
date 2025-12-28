@@ -1,13 +1,12 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import app from './app.js'
 
-const PORT = 8000
+const PORT = process.env.PORT
 
 app.listen(PORT, () => {
-  try {
-    console.log(`server is running at http://localhost:${PORT}`)
-  } catch (error) {
-    console.error(error)
-  }
+  console.log(`server is running at http://localhost:${PORT}`)
 })
 
 

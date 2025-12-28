@@ -1,25 +1,37 @@
+import dotenv from 'dotenv'
+dotenv.config()
+
 import jwt from 'jsonwebtoken'
 import db from '../config/db.js'
 import bcrypt from 'bcrypt'
+import AppError from '../utils/AppError.js'
 
-const JWT_SECRET_KEY = 'Aire-secret-key'
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 
 //register
-export const register = async (req, res) => {
+export const register = async (req, res, next) => {
   try {
     const {email, password, name} = req.body
+
     if (!email || !password || !name) {
-        return res.status(400).json({message: 'email password name required'})
+        return next(new AppError('Email, password, username are required', 400))
     }
+
     const passwordHash = await bcrypt.hash(password, 10)
+
     let sql = `INSERT INTO Users (email, passwordHash, name) VALUES (?, ?, ?)`
+
     db.run(sql,
       [email, passwordHash, name],
       (error) => {
         if (error) {
-          console.error(error)
-          return res.status(500).json({ message: "Insert failed", error: error });
+          // email ซ้ำ (unique)
+          if (error.code === 'SQLITE_CONSTRAINT') {
+            return next(new AppError('Email already exists', 409))
+          }
+          return next(new AppError('Database Error', 500))
         }
+
         res.json({message: 'INSERT COMPLETE',
           email,
           name
@@ -27,38 +39,36 @@ export const register = async (req, res) => {
       }
     )
   } catch (error) {
-    console.error(error)
-    res.json({message: 'INSERT ERROR',
-      error
-    }
-    )
+    next(error)
   }
 }
 
 
 
-export const login = async (req, res) => {
+export const login = async (req, res, next) => {
+  try {
     const {email, password} = req.body
+
     if (!email || !password) {
-      return res.status(400).json({message: 'email and password required'})
+      return next(new AppError('Email and Password are required', 400))
     }
+
     let sql = `SELECT * FROM Users WHERE email = ?`
+
     db.get(sql,
       [email],
       async (error, userData) => {
         if (error) {
-          console.error(error)
-          return res.status(500).json({ message: "Insert failed", error: error });
+          return next(new AppError('Database Error', 500))
         } 
 
         if (!userData) {
-          return res.status(401).json({message: 'Invalid email or password'})
+          return next(new AppError('Invalid email or password', 401))
         }
 
         const match = await bcrypt.compare(password, userData.passwordHash)
         if (!match) {
-          res.status(401).json({message: 'Invalid email or password'})
-          return false
+          return next(new AppError('Invalid email or password', 401)) 
         }
 
         const ONE_HOUR = 60 * 60 * 1000
@@ -71,14 +81,14 @@ export const login = async (req, res) => {
         })
 
         res.json({message: 'Login success',
-          userID: userData.userID,
-          email: userData.email,
-          name: userData.name,
+          name: userData.name
         })
-        console.log('User log in')
 
       }
     )
+  } catch (error) {
+    next(error)
+  }
 }
 
 export const fetchAuth = (req, res) => {

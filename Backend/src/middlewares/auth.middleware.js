@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken'
-const JWT_SECRET_KEY = 'Aire-secret-key'
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY
 
 export default function auth(req, res, next) {
   const token = req.cookies.token
