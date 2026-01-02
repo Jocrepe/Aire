@@ -4,7 +4,8 @@ import api from '@/services/api'
 export const useCartStore = defineStore('Cart',{
   state: () => ({
     cartItems: [],
-    loading: false
+    loading: false,
+    error: null
   }),
   getters: {
     totalprice: (state) => {
@@ -19,25 +20,28 @@ export const useCartStore = defineStore('Cart',{
 
 
   actions: {
-    async AddToCart (productID) {
+    async AddToCart (productID, quantity) {
+      this.error = null
       try {
-        await api.post('/api/cart/', { productID }, {withCredentials: true})
+        await api.post(`/api/cart/`, { productID, quantity })
         await this.fetchCart()
+        console.log(productID, quantity)
         this.loading = false
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        this.error = error.response?.data?.message
         this.loading = true
-      }
+      } 
     },
 
     async fetchCart () {
       this.loading = true
+      this.error = null
       try {
-        const res = await api.get(`/api/cart/`, {withCredentials: true})
+        const res = await api.get(`/api/cart/`)
         this.cartItems = res.data
         console.log(this.cartItems)
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        this.error = error.response?.data?.message
         this.loading = true
       }
       setTimeout(() => {
@@ -46,11 +50,12 @@ export const useCartStore = defineStore('Cart',{
     },
 
     async DeleteCart (productID) {
+      this.error = null
       try {
-        await api.delete(`/api/cart/${productID}`, {withCredentials: true})
+        await api.delete(`/api/cart/${productID}`)
         await this.fetchCart()
-      } catch (err) {
-        console.error(err)
+      } catch (error) {
+        this.error = error.response?.data?.message
         this.loading = true
       }
     }

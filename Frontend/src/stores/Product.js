@@ -5,7 +5,9 @@ import api from '@/services/api'
 export const useProductStore = defineStore('product', {
   state: () => ({
     products: [],
+    product: [],
     loading: false,
+    error: null
   }),
 
   actions: {
@@ -23,11 +25,27 @@ export const useProductStore = defineStore('product', {
             this.loading = false
           }, 1000)
       } catch (error) {
-          console.error(error)
+          this.error = error.response?.data?.message
           this.loading = true
       }
 
+    },
+
+    async fetchProductById (productID) {
+      this.loading = true
+      this.error = null
+
+      try {
+        const res = await api.get(`/api/products/${productID}`)
+        this.product = res.data
+      } catch(error) {
+        this.error = error.response?.data?.message
+        this.loading = true
+      } finally {
+        this.loading = false
+      }
     }
+
   }
 
 })

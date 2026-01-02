@@ -3,24 +3,19 @@ import { useProductStore } from '@/stores/Product';
 import { useCartStore } from '@/stores/Cart';
 import { useAuthStore } from '@/stores/auth';
 import { ref } from 'vue';
-import { useRouter } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router';
 
-import AddToCart from '../AddToCart.vue';
 const productStore = useProductStore()
-const cartStore = useCartStore()
 const authStore = useAuthStore()
 
 const router = useRouter()
 
 const isAlert = ref(false)
 
-const HandleAddToCart = async (productID) => {
+
+const HandleFetchByID = (productID) => {
   if (authStore.isAuth) {
-    await cartStore.AddToCart(productID)
-    isAlert.value = true
-    setTimeout(() => {
-      isAlert.value = false
-    }, 1000)
+    router.push({name: 'product', params: { productID }})
   } else {
     router.push({name: 'login'})
   }
@@ -29,10 +24,6 @@ const HandleAddToCart = async (productID) => {
 </script>
 
 <template>
-  <div v-if="isAlert" class="inset-0 fixed bg-black/85 flex items-center justify-center z-100">
-    <div class="p-10 bg-white rounded-xl text-xl ">Added To Cart!</div>
-  </div>
-
   <div class="grid grid-cols-4 gap-15">
     <div v-for="i in productStore.products" class="w-full mb-20" :key="i">
       <div class="w-full rounded-xl">
@@ -44,7 +35,7 @@ const HandleAddToCart = async (productID) => {
         <div class="pt-5">{{ i.reviewScore }}</div>
         <div class="flex flex-row justify-between">
           <div class="pt-5 text-xl">{{ i.price }} $</div>
-          <div @click="HandleAddToCart(i.productID)" class="rounded-full btn btn-outline"><AddToCart></AddToCart></div>
+          <div @click="HandleFetchByID(i.productID)" class=""><button class="rounded-full btn btn-error w-full">See Details</button></div>
         </div>
 
       </div>

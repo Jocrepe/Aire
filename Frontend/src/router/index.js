@@ -9,6 +9,7 @@ import CatProductView from '@/views/CatProductView.vue'
 import AdminView from '@/views/admin/AdminView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
+import ProductView from '@/views/ProductView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -49,11 +50,6 @@ const router = createRouter({
       component: CatProductView
     },
     {
-      path: '/admin',
-      name: 'admin',
-      component: AdminView
-    },
-    {
       path: '/register',
       name: 'register',
       component: RegisterView
@@ -62,9 +58,33 @@ const router = createRouter({
       path: '/login',
       name: 'login',
       component: LoginView
-    }
+    },
+    {
+      path: '/product/:productID',
+      name: 'product',
+      component: ProductView
+    },
+
+
+
+
+    //===========admin==============
+    {
+      path: '/admin',
+      name: 'admin',
+      component: AdminView
+    },
 
   ],
+  scrollBehavior(to, from, savedPosition) {
+    // กรณี back / forward
+    if (savedPosition) {
+      return savedPosition
+    }
+
+    // default: ขึ้นบนสุด
+    return { top: 0 }
+  }
 })
 
 export default router

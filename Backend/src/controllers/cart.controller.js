@@ -4,22 +4,26 @@ import AppError from '../utils/AppError.js'
 
 export const AddToCart = (req, res, next) => {
   const userID = req.user.userID
-  const { productID } = req.body
+  const { productID, quantity } = req.body
+
+  if (!productID || !quantity) {
+    return next(new AppError('Invalid ProductID or quantity', 400))
+  }
 
   db.get(`SELECT * FROM Cart WHERE userID = ? AND productID = ?`,
     [userID, productID],
     (err, row) => {
       if (err) {
         return next(new AppError('Database Error', 500))
-    }
+      }
       if (row) {
-        db.run(`UPDATE Cart SET quantity = quantity + 1 WHERE userID = ? AND productID = ?`,
-          [userID, productID],
+        db.run(`UPDATE Cart SET quantity = ? WHERE userID = ? AND productID = ?`,
+          [quantity, userID, productID],
           () => res.json({ message: "Quantity Updated" })
         )
       } else {
-        db.run(`INSERT INTO Cart (userID, productID, quantity) VALUES (?, ?, 1)`,
-          [userID, productID],
+        db.run(`INSERT INTO Cart (userID, productID, quantity) VALUES (?, ?, ?)`,
+          [userID, productID, quantity],
           () => res.json({ message: "Added to Cart" })
         )
       }

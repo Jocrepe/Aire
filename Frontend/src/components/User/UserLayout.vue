@@ -128,7 +128,7 @@ const handleLogout = async () => {
 
     <div v-if="!authStore.isAuth"
       :class="(route.name === 'login' || route.name === 'register') ? 'hidden ml-10' : 'ml-10'">
-      <RouterLink :to="{ name: 'register' }"><button class="btn btn-neutral text-xl w-30 h-13">Sign Up</button>
+      <RouterLink :to="{ name: 'register' }"><button class="btn btn-error text-[#fff] text-xl w-30 h-13">Sign Up</button>
       </RouterLink>
       <RouterLink :to="{ name: 'login' }"><button class="btn btn-ghost text-xl w-30 h-13">Sign In</button></RouterLink>
     </div>
