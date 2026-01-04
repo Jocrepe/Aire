@@ -94,7 +94,8 @@ export const login = async (req, res, next) => {
 export const fetchAuth = (req, res) => {
   res.json({
     userID: req.user.userID,
-    email: req.user.email
+    email: req.user.email,
+    role: req.user.role
   })
 }
 

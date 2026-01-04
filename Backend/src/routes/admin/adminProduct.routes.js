@@ -8,6 +8,6 @@ const router = express.Router()
 
 router.get('/', auth, isAdmin, fetchAllProducts)
 router.post('/', auth, isAdmin, upload.single('image'), InsertProduct)
-router.delete('/:id', auth, isAdmin, DeleteProduct)
+router.delete('/:productID', auth, isAdmin, DeleteProduct)
 
 export default router

@@ -12,6 +12,10 @@ const password = ref('')
 
 const Login = async () => {
     await authStore.login(email.value, password.value)
+
+    if (authStore.user.role != 'admin') {
+        router.push('/')
+    }
     
     if (authStore.isAuth) {
         router.push({name: 'admin-product'})

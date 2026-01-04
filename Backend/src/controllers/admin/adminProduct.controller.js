@@ -24,7 +24,12 @@ export const fetchAllProducts = (req, res, next) => {
 
 export const InsertProduct = (req, res, next) => {
   const {name, about, price, reviewScore, catagories} = req.body
+  if (!req.file) {
+  return next(new AppError('Image is required', 400))
+  }
+
   const imageBuffer = req.file.buffer
+
 
   let sql = `INSERT INTO Products(name, about, price, image, reviewScore, catagories)
   VALUES (?, ?, ?, ?, ?, ?)`
@@ -43,13 +48,21 @@ export const InsertProduct = (req, res, next) => {
 }
 
 export const DeleteProduct = (req, res, next) => {
-  const { id } = req.query
-  let sql = `DELETE FROM Products WHERE productID = ?`
-  db.run(sql, id, (err) => {
-    if (err) {
-      return next(new AppError('Database Error', 500))
-    }
-  })
+  const { productID } = req.params
 
-  res.json({message: 'Deleted'})
+  db.run(
+    `DELETE FROM Products WHERE productID = ?`,
+    [productID],
+    function (err) {
+      if (err) {
+        return next(new AppError('Database Error', 500))
+      }
+
+      if (this.changes === 0) {
+        return next(new AppError('Product not found', 404))
+      }
+
+      res.json({ message: 'Product deleted successfully' })
+    }
+  )
 }

@@ -4,6 +4,7 @@ import Table from '@/components/admin/Table.vue'
 import Loading from '@/components/User/Loading.vue'
 
 import { onMounted } from 'vue';
+import { useRouter } from 'vue-router';
 
 import { useAdminProductStore } from '@/stores/admin/adminProduct';
 import { useAuthStore } from '@/stores/auth';
@@ -11,17 +12,28 @@ import { useAuthStore } from '@/stores/auth';
 const adminProductStore = useAdminProductStore()
 const authStore = useAuthStore()
 
-onMounted(() => {
-    authStore.fetchAuthentication()
-    adminProductStore.fetchAllProducts()
+
+onMounted(async () => {
+    if (!authStore.user) {
+        await authStore.fetchAuthentication()
+    }
+
+    await adminProductStore.fetchAllProducts()
 })
 
+const HandleDeleteProduct = async (productID) => {
+    await adminProductStore.DeleteProduct(productID)
+    await adminProductStore.fetchAllProducts()
+}
 </script>
 
 <template>
     <adminSidebarLayout>
         <Loading v-if="adminProductStore.loading"></Loading>
-        <div class="text-2xl font-bold"><a href="">Products</a></div>
+        <div class="flex flex-row justify-between">
+            <a href="" class="text-2xl font-bold">Products</a>
+            <RouterLink :to="{name: 'admin-add-product'}"><button class="btn btn-soft btn-neutral">Add New Product</button></RouterLink>
+        </div>
         <div class="divider"></div>
 
         <div class="overflow-x-auto">
@@ -35,7 +47,7 @@ onMounted(() => {
                     <td>{{ product.reviewScore }}</td>
                     <td>{{ product.catagories }}</td>
                     <td><button class="btn btn-soft btn-primary">Edit</button></td>
-                    <td><button class="btn btn-soft btn-primary">Delete</button></td>
+                    <td><button class="btn btn-soft btn-primary" @click="HandleDeleteProduct(product.productID)">Delete</button></td>
                 </tr>
             </Table>
         </div>

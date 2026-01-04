@@ -15,6 +15,7 @@ import AdminView from '@/views/admin/AdminView.vue'
 import AdminLoginView from '@/views/admin/AdminLoginView.vue'
 import AdminDashboardView from '@/views/admin/dashboard/AdminDashboardView.vue'
 import AdminProductsView from '@/views/admin/product/AdminProductsView.vue'
+import AdminAddProductView from '@/views/admin/product/AdminAddProductView.vue'
 
 
 const router = createRouter({
@@ -93,7 +94,14 @@ const router = createRouter({
     {
       path: '/admin-product',
       name: 'admin-product',
-      component: AdminProductsView
+      component: AdminProductsView,
+      meta: { requiresAuth: true, requiresAdmin: true }
+
+    },
+    {
+      path: '/admin-add-product',
+      name: 'admin-add-product',
+      component: AdminAddProductView
     }
 
   ],
@@ -107,5 +115,36 @@ const router = createRouter({
     return { top: 0 }
   }
 })
+
+router.beforeEach(async (to, from, next) => {
+  const { useAuthStore } = await import('@/stores/auth')
+  const authStore = useAuthStore()
+
+  // ถ้า route ต้อง login
+  if (to.meta.requiresAuth) {
+
+    // refresh หน้า แต่ยังไม่มี user → fetch ใหม่
+    if (!authStore.user) {
+      try {
+        await authStore.fetchAuthentication()
+      } catch (err) {
+        return next({ name: 'admin-login' })
+      }
+    }
+
+    // ยังไม่ login
+    if (!authStore.user) {
+      return next({ name: 'admin-login' })
+    }
+
+    // ต้องเป็น admin
+    if (authStore.user.role !== 'admin') {
+      return next({ name: 'home' })
+    }
+  }
+
+  next()
+})
+
 
 export default router
