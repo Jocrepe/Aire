@@ -11,11 +11,11 @@ import RegisterView from '@/views/RegisterView.vue'
 import ProductView from '@/views/ProductView.vue'
 
 //=======admin========
-import AdminView from '@/views/admin/AdminView.vue'
 import AdminLoginView from '@/views/admin/AdminLoginView.vue'
 import AdminDashboardView from '@/views/admin/dashboard/AdminDashboardView.vue'
 import AdminProductsView from '@/views/admin/product/AdminProductsView.vue'
 import AdminAddProductView from '@/views/admin/product/AdminAddProductView.vue'
+import AdminEditProduct from '@/views/admin/product/AdminEditProduct.vue'
 
 
 const router = createRouter({
@@ -77,11 +77,6 @@ const router = createRouter({
 
     //===========admin==============
     {
-      path: '/admin',
-      name: 'admin',
-      component: AdminView
-    },
-    {
       path: '/admin-login',
       name: 'admin-login',
       component: AdminLoginView
@@ -89,7 +84,8 @@ const router = createRouter({
     {
       path: '/admin-dashboard',
       name: 'admin-dashboard',
-      component: AdminDashboardView
+      component: AdminDashboardView,
+      meta: { requiresAuth: true, requiresAdmin: true }
     },
     {
       path: '/admin-product',
@@ -101,7 +97,14 @@ const router = createRouter({
     {
       path: '/admin-add-product',
       name: 'admin-add-product',
-      component: AdminAddProductView
+      component: AdminAddProductView,
+      meta: { requiresAuth: true, requiresAdmin: true }
+    },
+    {
+      path: '/admin-edit-product',
+      name: 'admin-edit-product',
+      component: AdminEditProduct,
+      meta: { requiresAuth: true, requiresAdmin: true }
     }
 
   ],

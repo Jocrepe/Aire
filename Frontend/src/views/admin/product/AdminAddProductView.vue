@@ -131,6 +131,6 @@ const AddData = async () => {
         </div>
 
         <div class="divider"></div>
-        <div class="w-full flex justify-center"><button class="btn btn-info w-40" @click="AddData()">Add Product</button></div>
+        <div class="w-full flex justify-center mb-50"><button class="btn btn-info w-40 text-[#fff]" @click="AddData()">Add Product</button></div>
     </adminSidebarLayout>
 </template>

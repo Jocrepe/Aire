@@ -9,6 +9,8 @@ import { useRouter } from 'vue-router';
 import { useAdminProductStore } from '@/stores/admin/adminProduct';
 import { useAuthStore } from '@/stores/auth';
 
+const router = useRouter()
+
 const adminProductStore = useAdminProductStore()
 const authStore = useAuthStore()
 
@@ -24,6 +26,11 @@ onMounted(async () => {
 const HandleDeleteProduct = async (productID) => {
     await adminProductStore.DeleteProduct(productID)
     await adminProductStore.fetchAllProducts()
+}
+
+const HandleEditProduct = async (productID) => {
+    await adminProductStore.GetProduct(productID)
+    router.push({name: 'admin-edit-product'})
 }
 </script>
 
@@ -46,7 +53,7 @@ const HandleDeleteProduct = async (productID) => {
                     <td><img class="w-10" :src="'data:image/png;base64,' + product.image" alt=""></td>
                     <td>{{ product.reviewScore }}</td>
                     <td>{{ product.catagories }}</td>
-                    <td><button class="btn btn-soft btn-primary">Edit</button></td>
+                    <td><button class="btn btn-soft btn-primary" @click="HandleEditProduct(product.productID)">Edit</button></td>
                     <td><button class="btn btn-soft btn-primary" @click="HandleDeleteProduct(product.productID)">Delete</button></td>
                 </tr>
             </Table>

@@ -4,6 +4,7 @@ import api from '@/services/api.js'
 export const useAdminProductStore = defineStore('AdminProduct', {
     state: () => ({
         products: [],
+        product: [],
         error: null,
         loading: false
     }),
@@ -42,6 +43,30 @@ export const useAdminProductStore = defineStore('AdminProduct', {
             this.error = null
             try {
                 await api.delete(`/api/admin/products/${productID}`)
+            } catch (error) {
+                this.error = error.response?.data?.message
+            } finally {
+                this.loading = false
+            }
+        },
+        async GetProduct (productID) {
+            this.loading = true
+            this.errorr = null
+            this.product = []
+            try {
+                const res = await api.get(`/api/admin/products/${productID}`)
+                this.product = res.data
+            } catch (error) {
+                this.error = error.response?.data?.message
+            } finally {
+                this.loading = false
+            }
+        },
+        async UpdateProduct (formData) {
+            this.loading = true
+            this.error = null
+            try {
+                await api.put('/api/admin/products/', formData)
             } catch (error) {
                 this.error = error.response?.data?.message
             } finally {

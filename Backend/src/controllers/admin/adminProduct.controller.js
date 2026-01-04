@@ -22,8 +22,41 @@ export const fetchAllProducts = (req, res, next) => {
   })
 }
 
+export const fetchProductById = (req, res, next) => {
+  const { productID } = req.params
+  if (!productID) {
+    return next(new AppError('Product ID is required', 400))
+  }
+
+  let sql = `SELECT * FROM Products WHERE productID = ?`
+
+  db.get(sql, 
+    [productID], 
+    (error, row) => {
+      if (error) {
+        return next(new AppError('Database Error', 500))
+      }
+      if (!row) {
+        return next(new AppError('Product Not Found', 404))
+      }
+
+      const data = {
+        productID: row.productID,
+        name: row.name,
+        about: row.about,
+        price: row.price,
+        image: row.image ? row.image.toString("base64") : null,
+        reviewScore: row.reviewScore,
+        catagories: row.catagories
+      }
+
+      res.json(data)
+
+  })
+}
+
 export const InsertProduct = (req, res, next) => {
-  const {name, about, price, reviewScore, catagories} = req.body
+  const { name, about, price, reviewScore, catagories } = req.body
   if (!req.file) {
   return next(new AppError('Image is required', 400))
   }
@@ -50,6 +83,10 @@ export const InsertProduct = (req, res, next) => {
 export const DeleteProduct = (req, res, next) => {
   const { productID } = req.params
 
+  if (!productID) {
+    return next(new AppError('Product ID is required', 400))
+  }
+
   db.run(
     `DELETE FROM Products WHERE productID = ?`,
     [productID],
@@ -63,6 +100,45 @@ export const DeleteProduct = (req, res, next) => {
       }
 
       res.json({ message: 'Product deleted successfully' })
+    }
+  )
+}
+
+export const UpdateProduct = (req, res, next) => {
+  const { name, about, price, reviewScore, catagories, productID } = req.body
+  if (!productID) {
+    return next(new AppError('Product ID is required', 400))
+  }
+  let sql 
+  let params
+
+  if (req.file) {
+    sql = `
+      UPDATE Products 
+      SET name = ?, about = ?, price = ?, image = ?, reviewScore = ?, catagories = ?
+      WHERE productID = ?`
+
+    params = [name, about, price, req.file.buffer,reviewScore, catagories, productID]
+ } else {
+    sql = `
+      UPDATE Products 
+      SET name = ?, about = ?, price = ?, reviewScore = ?, catagories = ?
+      WHERE productID = ?`
+
+      params = [name, about, price, reviewScore, catagories, productID]
+ }
+
+  db.run(sql,
+    params,
+    function (error) {
+      if (error) {
+        return next(new AppError('Database Error', 500))
+      }
+      if (this.changes === 0) {
+        next(new AppError('Product not found', 404))
+      }
+
+      res.json({message: 'Product Updated'})
     }
   )
 }
