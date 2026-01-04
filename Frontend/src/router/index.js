@@ -6,10 +6,16 @@ import WomenProductView from '@/views/WomenProductView.vue'
 import MenProductView from '@/views/MenProductView.vue'
 import KidProductView from '@/views/KidProductView.vue'
 import CatProductView from '@/views/CatProductView.vue'
-import AdminView from '@/views/admin/AdminView.vue'
 import LoginView from '@/views/LoginView.vue'
 import RegisterView from '@/views/RegisterView.vue'
 import ProductView from '@/views/ProductView.vue'
+
+//=======admin========
+import AdminView from '@/views/admin/AdminView.vue'
+import AdminLoginView from '@/views/admin/AdminLoginView.vue'
+import AdminDashboardView from '@/views/admin/dashboard/AdminDashboardView.vue'
+import AdminProductsView from '@/views/admin/product/AdminProductsView.vue'
+
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -74,6 +80,21 @@ const router = createRouter({
       name: 'admin',
       component: AdminView
     },
+    {
+      path: '/admin-login',
+      name: 'admin-login',
+      component: AdminLoginView
+    },
+    {
+      path: '/admin-dashboard',
+      name: 'admin-dashboard',
+      component: AdminDashboardView
+    },
+    {
+      path: '/admin-product',
+      name: 'admin-product',
+      component: AdminProductsView
+    }
 
   ],
   scrollBehavior(to, from, savedPosition) {

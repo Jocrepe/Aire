@@ -17,7 +17,6 @@ const router = useRouter()
 
 const activeNavbar = ref('')
 
-const isHidden = ref(false)
 const isCartHidden = ref(true)
 const isAlert = ref(false)
 
@@ -100,11 +99,7 @@ const handleLogout = async () => {
   <!-- cart===================================== -->
 
 
-  <div class="w-full bg-black text-center" :class="{ hidden: isHidden }">
-    <p class="text-white text-md underline underline-offset-6 py-2">This website is intended for educational purposes
-      only. All information provided should not be used for commercial or harmful activities.</p>
-    <button @click="isHidden = true" class="absolute right-5 text-white top-2 cursor-pointer">X</button>
-  </div>
+
   <div class="flex w-full h-30 border-b-1 border-gray-300 items-center">
     <div class=" ml-30 font-bold">
       <RouterLink to="/"><button class="cursor-pointer btn btn-ghost text-6xl">Aire</button></RouterLink>

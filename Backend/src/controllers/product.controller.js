@@ -60,33 +60,6 @@ export const fetchProductById = (req, res, next) => {
   })
 }
 
-//Post for admin
-export const InsertProduct = (req, res, next) => {
-  const {name, about, price, reviewScore, catagories} = req.body
-  const imageBuffer = req.file.buffer
 
-  let sql = `INSERT INTO Products(name, about, price, image, reviewScore, catagories)
-  VALUES (?, ?, ?, ?, ?, ?)`
 
-  db.run(sql,
-  [name, about, price, imageBuffer, reviewScore, catagories],
-   (error) => {
-    if (error) {
-      return next(new AppError('Database Error', 500))
-    }
 
-  res.json({message: 'Insert complete'})
-
-  })
-
-}
-
-export const DeleteProduct = (req, res, next) => {
-  const { id } = req.query
-  let sql = `DELETE FROM Products WHERE productID = ?`
-  db.run(sql, id, (err) => {
-    if (err) {
-      return next(new AppError('Database Error', 500))
-    }
-  })
-}

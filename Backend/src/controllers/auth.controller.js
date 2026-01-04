@@ -72,7 +72,7 @@ export const login = async (req, res, next) => {
         }
 
         const ONE_HOUR = 60 * 60 * 1000
-        const token = jwt.sign({email, userID: userData.userID}, JWT_SECRET_KEY, {expiresIn: '1h'})
+        const token = jwt.sign({email, userID: userData.userID, role: userData.role}, JWT_SECRET_KEY, {expiresIn: '1h'})
         res.cookie('token', token, {
           maxAge: ONE_HOUR,
           secure: false,

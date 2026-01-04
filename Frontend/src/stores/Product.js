@@ -14,27 +14,22 @@ export const useProductStore = defineStore('product', {
     async fetchProductsByCatagories (catagories) {
       this.loading = true
       this.error = null
-
       try {
           const res = await api.get('/api/products/', {
             params: {catagories}
           })
           this.products = res.data
-
-          setTimeout(() => {
-            this.loading = false
-          }, 1000)
       } catch (error) {
           this.error = error.response?.data?.message
           this.loading = true
+      } finally {
+        this.loading = false
       }
-
     },
 
     async fetchProductById (productID) {
       this.loading = true
       this.error = null
-
       try {
         const res = await api.get(`/api/products/${productID}`)
         this.product = res.data
@@ -45,7 +40,6 @@ export const useProductStore = defineStore('product', {
         this.loading = false
       }
     }
-
   }
 
 })

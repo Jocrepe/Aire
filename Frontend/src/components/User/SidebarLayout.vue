@@ -39,7 +39,7 @@ watch(
 </script>
 
 <template>
-  <div class="mx-5 pt-5 border-r-1 border-gray-300 w-70 h-full">
+  <div class="mx-5 pt-5 border-r-1 border-gray-300 w-70 h-vh">
     <ul class="menu rounded-box w-full text-xl">
       <li class="menu-titles mb-5 text-gray-700">Catagories</li>
       <li v-for="menu in SidebarMenus">

@@ -9,6 +9,8 @@ import authRoutes from './routes/auth.routes.js'
 import cartRoutes from './routes/cart.routes.js'
 import productRoutes from './routes/product.routes.js'
 
+import adminProductRoutes from './routes/admin/adminProduct.routes.js'
+
 import errorHandler from './middlewares/error.middleware.js'
 
 
@@ -25,6 +27,9 @@ app.use(cookieParser())
 app.use('/api/auth', authRoutes)
 app.use('/api/products', productRoutes)
 app.use('/api/cart', cartRoutes)
+
+//admin
+app.use('/api/admin/products', adminProductRoutes)
 
 app.use(errorHandler)
 
