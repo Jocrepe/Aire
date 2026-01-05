@@ -32,7 +32,7 @@ onMounted(() => {
           <SidebarLayout></SidebarLayout>
         </div>
 
-        <div  class="w-375 p-10">
+        <div class="w-375 p-10">
           <!-- <div class="carousel w-full py-10 ml-10">
             <div id="slide1" class="carousel-item relative w-full">
               <img src="@/assets/User/iphone.png" class="w-full h-150" />
@@ -57,7 +57,7 @@ onMounted(() => {
             </div>
           </div> -->
 
-                    <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="1" navigation loop autoplay class="w-full h-150">
+          <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="1" navigation loop autoplay class="w-full h-150">
             <SwiperSlide>
               <img src="@/assets/User/iphone.png" class="w-full h-150" />
             </SwiperSlide>
@@ -78,54 +78,54 @@ onMounted(() => {
 
 
 
-        <div class="w-full flex flex-col mt-10">
-          <div class="flex w-full">
-            <div class="w-5 h-10 rounded-md bg-error"></div>
+      <div class="w-full flex flex-col mt-10">
+        <div class="flex w-full">
+          <div class="w-5 h-10 rounded-md bg-error"></div>
 
-            <div class="flex items-center px-5 text-error text-xl">This Month</div>
-          </div>
+          <div class="flex items-center px-5 text-error text-xl">This Month</div>
+        </div>
 
-          <div class="flex w-full justify-between mt-5 mb-12">
-            <div class="text-4xl">Best Selling Products</div>
-            <div>
-              <button class="btn btn-ghost text-xl underline underline-offset-5">View All Product ></button>
-            </div>
-          </div>
-
+        <div class="flex w-full justify-between mt-5 mb-12">
+          <div class="text-4xl">Best Selling Products</div>
           <div>
-            <ProductCard></ProductCard>
+            <button class="btn btn-ghost text-xl underline underline-offset-5">View All Product ></button>
           </div>
         </div>
 
-        <div class="w-full mb-30">
-          <!-- <ProductCard></ProductCard> -->
+        <div>
+          <ProductCard></ProductCard>
         </div>
-
-        <div class="w-full flex flex-col">
-          <div class="flex w-full">
-            <div class="w-5 h-10 rounded-md bg-error"></div>
-            <div class="flex items-center px-5 text-error text-xl">Featured</div>
-          </div>
-          <div class="flex w-full justify-between mt-5 mb-12">
-            <div class="text-4xl">New Arrival</div>
-          </div>
-        </div>
-        <div class="w-full flex gap-10 mb-10">
-          <div class="w-1/2"><img src="@/assets/User/ps5.png" alt="" class="w-full cursor-pointer"></div>
-          <div class="w-1/2 flex flex-col gap-7">
-            <div><img src="@/assets/User/Womencoll.png" alt="" class="w-full cursor-pointer"></div>
-            <div class="flex gap-5">
-              <img src="@/assets/User/speaker.png" alt="" class="w-full cursor-pointer">
-              <img src="@/assets/User/perfume.png" alt="" class="w-full cursor-pointer">
-            </div>
-
-          </div>
-        </div>
-
-        <div class="w-full flex justify-center py-30">
-          <img src="@/assets/User/guarantee.png" alt="">
-        </div>
-
       </div>
+
+      <div class="w-full mb-30">
+        <!-- <ProductCard></ProductCard> -->
+      </div>
+
+      <div class="w-full flex flex-col">
+        <div class="flex w-full">
+          <div class="w-5 h-10 rounded-md bg-error"></div>
+          <div class="flex items-center px-5 text-error text-xl">Featured</div>
+        </div>
+        <div class="flex w-full justify-between mt-5 mb-12">
+          <div class="text-4xl">New Arrival</div>
+        </div>
+      </div>
+      <div class="w-full flex gap-10 mb-10">
+        <div class="w-1/2"><img src="@/assets/User/ps5.png" alt="" class="w-full cursor-pointer"></div>
+        <div class="w-1/2 flex flex-col gap-7">
+          <div><img src="@/assets/User/Womencoll.png" alt="" class="w-full cursor-pointer"></div>
+          <div class="flex gap-5">
+            <img src="@/assets/User/speaker.png" alt="" class="w-full cursor-pointer">
+            <img src="@/assets/User/perfume.png" alt="" class="w-full cursor-pointer">
+          </div>
+
+        </div>
+      </div>
+
+      <div class="w-full flex justify-center py-30">
+        <img src="@/assets/User/guarantee.png" alt="">
+      </div>
+
+    </div>
   </UserLayout>
 </template>

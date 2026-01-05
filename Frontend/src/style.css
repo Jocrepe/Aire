@@ -1,17 +1,18 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-@plugin "daisyui" {
-  themes: light --default ;
-}
-
-
-/* @theme {
-  --font-DynaPuff: "", sans-serif;
-} */
+@import "tailwindcss";
+ @plugin "daisyui" {
+   themes: light --default;
+ }
 
 body {
   font-family: 'Inter', sans-serif;
+}
+@layer base {
+  body {
+    font-family: 'Inter', sans-serif;
 
+  }
+}
 
+body {
+  font-family: 'Inter', sans-serif;
 }
