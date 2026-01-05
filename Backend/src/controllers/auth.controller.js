@@ -75,9 +75,9 @@ export const login = async (req, res, next) => {
         const token = jwt.sign({email, userID: userData.userID, role: userData.role}, JWT_SECRET_KEY, {expiresIn: '1h'})
         res.cookie('token', token, {
           maxAge: ONE_HOUR,
-          secure: false,
+          secure: true,
           httpOnly: true,
-          sameSite: "lax"
+          sameSite: "none"
         })
 
         res.json({message: 'Login success',
@@ -102,8 +102,8 @@ export const fetchAuth = (req, res) => {
 export const logout = (req, res) => {
   res.clearCookie('token', {
     httpOnly: true,
-    secure: false,
-    sameSite: "lax"
+    secure: true,
+    sameSite: "none"
   })
   res.json({ message: 'Logged out' })
   console.log('User log out')
