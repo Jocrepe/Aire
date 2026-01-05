@@ -1,5 +1,5 @@
 import '@/style.css'
-import '/swiper/css'
+import 'swiper/css'
 
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
