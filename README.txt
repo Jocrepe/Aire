@@ -9,6 +9,3 @@ step 2
 cd Backend
 npm install
 npm run dev
-
-Create .env and paste
-JWT_SECRET_KEY="your-secret"
