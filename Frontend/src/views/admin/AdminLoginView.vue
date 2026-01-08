@@ -1,5 +1,5 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 import { useRouter } from 'vue-router';
 
 import { useAuthStore } from '@/stores/auth';
@@ -9,6 +9,10 @@ const authStore = useAuthStore()
 
 const email = ref('')
 const password = ref('')
+
+onMounted(async () => {
+    authStore.logout()
+})
 
 const Login = async () => {
     await authStore.login(email.value, password.value)
