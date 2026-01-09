@@ -123,24 +123,28 @@ router.beforeEach(async (to, from, next) => {
   const { useAuthStore } = await import('@/stores/auth')
   const authStore = useAuthStore()
 
-  // ถ้า route ต้อง login
   if (to.meta.requiresAuth) {
-
-    // refresh หน้า แต่ยังไม่มี user → fetch ใหม่
+    
+    // ถ้ายังไม่มี user → พยายาม fetch
     if (!authStore.user) {
       try {
         await authStore.fetchAuthentication()
+        
+        // รอให้แน่ใจว่า state update แล้ว (สำคัญบนมือถือ!)
+        await new Promise(resolve => setTimeout(resolve, 100))
+        
       } catch (err) {
+        console.error('Auth check failed:', err)
         return next({ name: 'admin-login' })
       }
     }
 
-    // ยังไม่ login
+    // ตรวจสอบอีกครั้งหลัง fetch
     if (!authStore.user) {
       return next({ name: 'admin-login' })
     }
 
-    // ต้องเป็น admin
+    // เช็ค role
     if (authStore.user.role !== 'admin') {
       return next({ name: 'home' })
     }
