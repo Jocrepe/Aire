@@ -10,9 +10,6 @@ const authStore = useAuthStore()
 const email = ref('')
 const password = ref('')
 
-onMounted(async () => {
-    authStore.logout()
-})
 
 const Login = async () => {
     try {
