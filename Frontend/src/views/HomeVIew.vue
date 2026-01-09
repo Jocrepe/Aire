@@ -26,38 +26,14 @@ onMounted(() => {
 <template>
   <UserLayout>
     <Loading v-if="productStore.loading || cartStore.loading"></Loading>
-    <div class="w-450 mx-auto">
+    <div class="container mx-auto">
       <div class="flex">
         <div>
           <SidebarLayout></SidebarLayout>
         </div>
 
-        <div class="w-375 p-10">
-          <!-- <div class="carousel w-full py-10 ml-10">
-            <div id="slide1" class="carousel-item relative w-full">
-              <img src="@/assets/User/iphone.png" class="w-full h-150" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide1" class="btn btn-circle">❮</a>
-                <a href="#slide2" class="btn btn-circle">❯</a>
-              </div>
-            </div>
-            <div id="slide2" class="carousel-item relative w-full">
-              <img src="@/assets/User/hero2.png" class="w-full h-150" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide1" class="btn btn-circle">❮</a>
-                <a href="#slide3" class="btn btn-circle">❯</a>
-              </div>
-            </div>
-            <div id="slide3" class="carousel-item relative w-full">
-              <img src="@/assets/User/hero3.png" class="w-full h-150" />
-              <div class="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-                <a href="#slide2" class="btn btn-circle">❮</a>
-                <a href="#slide3" class="btn btn-circle">❯</a>
-              </div>
-            </div>
-          </div> -->
-
-          <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="1" navigation loop autoplay class="w-full h-150">
+        <div class="w-[300px] md:w-[1000px] lg:w-[1400px] p-10">
+          <Swiper :modules="[Navigation, Autoplay]" :slides-per-view="1" navigation loop autoplay class="h-150">
             <SwiperSlide>
               <img src="@/assets/User/iphone.png" class="w-full h-150" />
             </SwiperSlide>

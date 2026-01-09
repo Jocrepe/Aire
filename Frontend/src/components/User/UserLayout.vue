@@ -100,7 +100,7 @@ const handleLogout = async () => {
 
 
 
-  <div class="flex w-full h-30 border-b-1 border-gray-300 items-center">
+  <div class="flex h-30 border-b-1 border-gray-300 items-center">
     <div class=" ml-30 font-bold">
       <RouterLink to="/"><button class="cursor-pointer btn btn-ghost text-6xl">Aire</button></RouterLink>
     </div>
@@ -122,9 +122,8 @@ const handleLogout = async () => {
 
 
     <div v-if="!authStore.isAuth"
-      :class="(route.name === 'login' || route.name === 'register') ? 'hidden ml-10' : 'ml-10'">
-      <RouterLink :to="{ name: 'register' }"><button class="btn btn-error text-[#fff] text-xl w-30 h-13">Sign Up</button>
-      </RouterLink>
+      :class="(route.name === 'login' || route.name === 'register') ? 'hidden ml-10' : 'flex flex-col lg:flex-row ml-10'">
+      <RouterLink :to="{ name: 'register' }"><button class="btn btn-error text-[#fff] text-xl w-30 h-13">Sign Up</button></RouterLink>
       <RouterLink :to="{ name: 'login' }"><button class="btn btn-ghost text-xl w-30 h-13">Sign In</button></RouterLink>
     </div>
     <div v-else class="mx-10 dropdown dropdown-end">

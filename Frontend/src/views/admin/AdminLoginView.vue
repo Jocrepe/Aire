@@ -15,14 +15,24 @@ onMounted(async () => {
 })
 
 const Login = async () => {
-    await authStore.login(email.value, password.value)
-
-    if (authStore.user.role != 'admin') {
-        router.push('/')
-    }
-    
-    if (authStore.isAuth) {
-        router.push({name: 'admin-product'})
+    try {
+        await authStore.login(email.value, password.value)
+        
+        // รอให้ state update เสร็จก่อน
+        await nextTick()
+        
+        if (!authStore.isAuth) {
+            // ถ้า login ไม่สำเร็จ
+            return
+        }
+        
+        if (authStore.user.role === 'admin') {
+            await router.push({name: 'admin-product'})
+        } else {
+            await router.push('/')
+        }
+    } catch (error) {
+        console.error('Login error:', error)
     }
 }
 </script>
