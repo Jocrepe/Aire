@@ -18,9 +18,6 @@ const Login = async () => {
     try {
         await authStore.login(email.value, password.value)
         
-        // รอให้ state update เสร็จก่อน
-        await nextTick()
-        
         if (!authStore.isAuth) {
             // ถ้า login ไม่สำเร็จ
             return
@@ -31,6 +28,9 @@ const Login = async () => {
         } else {
             await router.push('/')
         }
+
+        console.log('isAuth:', authStore.isAuth)
+        console.log('user role:', authStore.user.role)
     } catch (error) {
         console.error('Login error:', error)
     }
